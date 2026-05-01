@@ -1,0 +1,1302 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Neuralis Bio-Systems — Bio-Nexus</title>
+<link href="https://fonts.googleapis.com/css2?family=Syne:wght@400;600;700;800&family=DM+Sans:ital,wght@0,300;0,400;0,500;1,300&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --teal: #0D9E75;
+    --teal-light: #E1F5EE;
+    --teal-dark: #085041;
+    --teal-mid: #1D9E75;
+    --gray: #0E0E0E;
+    --gray-soft: #1A1A1A;
+    --gray-border: #2A2A2A;
+    --text: #EAEAEA;
+    --text-muted: #888;
+    --accent: #00FFB2;
+  }
+
+  *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+  html { scroll-behavior: smooth; }
+
+  body {
+    background: #080C09;
+    color: var(--text);
+    font-family: 'DM Sans', sans-serif;
+    font-size: 16px;
+    line-height: 1.7;
+    overflow-x: hidden;
+  }
+
+  h1, h2, h3, h4 { font-family: 'Syne', sans-serif; }
+
+  .grid-bg {
+    position: fixed;
+    inset: 0;
+    background-image:
+      linear-gradient(rgba(0,255,178,0.03) 1px, transparent 1px),
+      linear-gradient(90deg, rgba(0,255,178,0.03) 1px, transparent 1px);
+    background-size: 60px 60px;
+    pointer-events: none;
+    z-index: 0;
+  }
+
+  nav {
+    position: fixed;
+    top: 0;
+    left: 0;
+    right: 0;
+    z-index: 100;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 1.2rem 4rem;
+    background: rgba(8,12,9,0.85);
+    backdrop-filter: blur(16px);
+    border-bottom: 1px solid rgba(0,255,178,0.08);
+  }
+
+  .logo {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    text-decoration: none;
+  }
+
+  .logo-icon {
+    width: 32px;
+    height: 32px;
+  }
+
+  .logo-text {
+    font-family: 'Syne', sans-serif;
+    font-size: 18px;
+    font-weight: 700;
+    color: #fff;
+    letter-spacing: -0.5px;
+  }
+
+  .logo-text span { color: var(--accent); }
+
+  nav ul {
+    list-style: none;
+    display: flex;
+    gap: 2.5rem;
+  }
+
+  nav ul li a {
+    color: var(--text-muted);
+    text-decoration: none;
+    font-size: 14px;
+    letter-spacing: 0.02em;
+    transition: color 0.2s;
+  }
+
+  nav ul li a:hover { color: var(--accent); }
+
+  .nav-cta {
+    background: var(--accent) !important;
+    color: #080C09 !important;
+    padding: 8px 20px;
+    border-radius: 4px;
+    font-weight: 500;
+    font-size: 14px;
+    text-decoration: none;
+    transition: opacity 0.2s;
+  }
+
+  .nav-cta:hover { opacity: 0.85; }
+
+  section { position: relative; z-index: 1; }
+
+  /* HERO */
+  #hero {
+    min-height: 100vh;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    padding: 8rem 2rem 6rem;
+    text-align: center;
+    position: relative;
+  }
+
+  .hero-badge {
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+    background: rgba(0,255,178,0.08);
+    border: 1px solid rgba(0,255,178,0.2);
+    color: var(--accent);
+    font-size: 12px;
+    letter-spacing: 0.12em;
+    text-transform: uppercase;
+    padding: 6px 16px;
+    border-radius: 2px;
+    margin-bottom: 2.5rem;
+    font-family: 'Syne', sans-serif;
+    font-weight: 600;
+  }
+
+  .badge-dot {
+    width: 6px;
+    height: 6px;
+    background: var(--accent);
+    border-radius: 50%;
+    animation: pulse 2s infinite;
+  }
+
+  @keyframes pulse {
+    0%, 100% { opacity: 1; transform: scale(1); }
+    50% { opacity: 0.4; transform: scale(0.8); }
+  }
+
+  h1.hero-title {
+    font-size: clamp(52px, 8vw, 96px);
+    font-weight: 800;
+    line-height: 1;
+    letter-spacing: -3px;
+    color: #fff;
+    max-width: 900px;
+    margin-bottom: 1.5rem;
+  }
+
+  h1.hero-title span {
+    color: var(--accent);
+  }
+
+  .hero-sub {
+    font-size: 18px;
+    color: var(--text-muted);
+    max-width: 560px;
+    margin: 0 auto 3rem;
+    font-weight: 300;
+    line-height: 1.8;
+  }
+
+  .hero-cta-group {
+    display: flex;
+    gap: 1rem;
+    justify-content: center;
+    flex-wrap: wrap;
+    margin-bottom: 5rem;
+  }
+
+  .btn-primary {
+    background: var(--accent);
+    color: #080C09;
+    border: none;
+    padding: 14px 32px;
+    font-family: 'Syne', sans-serif;
+    font-weight: 700;
+    font-size: 15px;
+    border-radius: 4px;
+    cursor: pointer;
+    text-decoration: none;
+    transition: opacity 0.2s;
+    letter-spacing: 0.02em;
+  }
+
+  .btn-primary:hover { opacity: 0.85; }
+
+  .btn-outline {
+    background: transparent;
+    color: var(--text);
+    border: 1px solid rgba(255,255,255,0.15);
+    padding: 14px 32px;
+    font-family: 'Syne', sans-serif;
+    font-weight: 600;
+    font-size: 15px;
+    border-radius: 4px;
+    cursor: pointer;
+    text-decoration: none;
+    transition: border-color 0.2s, color 0.2s;
+  }
+
+  .btn-outline:hover {
+    border-color: var(--accent);
+    color: var(--accent);
+  }
+
+  .hero-chip-visual {
+    position: relative;
+    width: 220px;
+    height: 220px;
+    margin: 0 auto;
+  }
+
+  .chip-ring {
+    position: absolute;
+    border-radius: 50%;
+    border: 1px solid rgba(0,255,178,0.15);
+    animation: spin-slow linear infinite;
+  }
+
+  .chip-ring-1 {
+    inset: 0;
+    animation-duration: 20s;
+  }
+
+  .chip-ring-2 {
+    inset: 20px;
+    animation-duration: 14s;
+    animation-direction: reverse;
+    border-color: rgba(0,255,178,0.08);
+  }
+
+  @keyframes spin-slow {
+    from { transform: rotate(0deg); }
+    to { transform: rotate(360deg); }
+  }
+
+  .chip-core {
+    position: absolute;
+    inset: 50px;
+    background: rgba(0,255,178,0.05);
+    border: 1px solid rgba(0,255,178,0.3);
+    border-radius: 12px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+  }
+
+  .chip-label {
+    font-family: 'Syne', sans-serif;
+    font-size: 11px;
+    font-weight: 700;
+    color: var(--accent);
+    letter-spacing: 0.15em;
+    text-transform: uppercase;
+  }
+
+  /* STATS BAR */
+  .stats-bar {
+    background: rgba(0,255,178,0.04);
+    border-top: 1px solid rgba(0,255,178,0.08);
+    border-bottom: 1px solid rgba(0,255,178,0.08);
+    padding: 2rem 4rem;
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    gap: 2rem;
+    text-align: center;
+  }
+
+  .stat-item {}
+
+  .stat-number {
+    font-family: 'Syne', sans-serif;
+    font-size: 32px;
+    font-weight: 800;
+    color: var(--accent);
+    line-height: 1;
+    margin-bottom: 6px;
+  }
+
+  .stat-label {
+    font-size: 13px;
+    color: var(--text-muted);
+    text-transform: uppercase;
+    letter-spacing: 0.08em;
+  }
+
+  /* SECTIONS GENERIC */
+  .section-inner {
+    max-width: 1100px;
+    margin: 0 auto;
+    padding: 6rem 2rem;
+  }
+
+  .section-eyebrow {
+    font-family: 'Syne', sans-serif;
+    font-size: 11px;
+    font-weight: 700;
+    color: var(--accent);
+    letter-spacing: 0.2em;
+    text-transform: uppercase;
+    margin-bottom: 1rem;
+  }
+
+  .section-title {
+    font-size: clamp(32px, 4vw, 52px);
+    font-weight: 800;
+    letter-spacing: -1.5px;
+    color: #fff;
+    line-height: 1.1;
+    margin-bottom: 1.5rem;
+  }
+
+  .section-body {
+    font-size: 17px;
+    color: var(--text-muted);
+    max-width: 560px;
+    line-height: 1.8;
+    font-weight: 300;
+  }
+
+  /* ABOUT */
+  #about .section-inner {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 6rem;
+    align-items: center;
+  }
+
+  .about-features {
+    margin-top: 2rem;
+    display: flex;
+    flex-direction: column;
+    gap: 1rem;
+  }
+
+  .feature-item {
+    display: flex;
+    align-items: flex-start;
+    gap: 12px;
+    padding: 1rem;
+    border: 1px solid rgba(255,255,255,0.05);
+    border-radius: 6px;
+    background: rgba(255,255,255,0.02);
+  }
+
+  .feature-icon {
+    width: 20px;
+    height: 20px;
+    flex-shrink: 0;
+    margin-top: 2px;
+  }
+
+  .feature-text h4 {
+    font-family: 'Syne', sans-serif;
+    font-size: 14px;
+    font-weight: 600;
+    color: #fff;
+    margin-bottom: 2px;
+  }
+
+  .feature-text p {
+    font-size: 13px;
+    color: var(--text-muted);
+    line-height: 1.5;
+  }
+
+  .about-vis {
+    position: relative;
+  }
+
+  .hand-diagram {
+    width: 100%;
+    border: 1px solid rgba(0,255,178,0.1);
+    border-radius: 12px;
+    background: rgba(0,255,178,0.02);
+    padding: 2rem;
+    text-align: center;
+    position: relative;
+    overflow: hidden;
+  }
+
+  .hand-diagram::before {
+    content: '';
+    position: absolute;
+    top: -50%;
+    left: -50%;
+    width: 200%;
+    height: 200%;
+    background: radial-gradient(ellipse at center, rgba(0,255,178,0.04) 0%, transparent 60%);
+    pointer-events: none;
+  }
+
+  .implant-zone {
+    display: inline-block;
+    position: relative;
+    margin-bottom: 1rem;
+  }
+
+  .implant-point {
+    position: absolute;
+    top: 38%;
+    left: 52%;
+    width: 14px;
+    height: 14px;
+    background: var(--accent);
+    border-radius: 50%;
+    transform: translate(-50%, -50%);
+    animation: implant-pulse 2.5s ease-in-out infinite;
+  }
+
+  @keyframes implant-pulse {
+    0%, 100% { box-shadow: 0 0 0 0 rgba(0,255,178,0.6); }
+    50% { box-shadow: 0 0 0 14px rgba(0,255,178,0); }
+  }
+
+  .diagram-caption {
+    font-family: 'Syne', sans-serif;
+    font-size: 11px;
+    color: var(--accent);
+    letter-spacing: 0.15em;
+    text-transform: uppercase;
+  }
+
+  /* PRODUCT */
+  #product {
+    background: rgba(0,255,178,0.02);
+    border-top: 1px solid rgba(0,255,178,0.06);
+    border-bottom: 1px solid rgba(0,255,178,0.06);
+  }
+
+  .product-grid {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 1.5rem;
+    margin-top: 3rem;
+  }
+
+  .product-card {
+    border: 1px solid rgba(255,255,255,0.06);
+    border-radius: 10px;
+    padding: 1.8rem;
+    background: rgba(255,255,255,0.02);
+    transition: border-color 0.2s;
+  }
+
+  .product-card:hover {
+    border-color: rgba(0,255,178,0.2);
+  }
+
+  .card-num {
+    font-family: 'Syne', sans-serif;
+    font-size: 40px;
+    font-weight: 800;
+    color: rgba(0,255,178,0.15);
+    line-height: 1;
+    margin-bottom: 1rem;
+  }
+
+  .card-title {
+    font-family: 'Syne', sans-serif;
+    font-size: 17px;
+    font-weight: 700;
+    color: #fff;
+    margin-bottom: 0.5rem;
+  }
+
+  .card-desc {
+    font-size: 14px;
+    color: var(--text-muted);
+    line-height: 1.6;
+  }
+
+  /* PILOTS */
+  #pilots .section-inner {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 4rem;
+    align-items: start;
+  }
+
+  .pilots-map {
+    position: relative;
+  }
+
+  .map-label {
+    font-family: 'Syne', sans-serif;
+    font-size: 10px;
+    font-weight: 700;
+    letter-spacing: 0.15em;
+    text-transform: uppercase;
+    color: var(--accent);
+    margin-bottom: 1rem;
+  }
+
+  .country-list {
+    list-style: none;
+    display: flex;
+    flex-direction: column;
+    gap: 0.75rem;
+  }
+
+  .country-item {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    padding: 1rem 1.2rem;
+    border: 1px solid rgba(255,255,255,0.05);
+    border-radius: 6px;
+    background: rgba(255,255,255,0.02);
+  }
+
+  .country-status {
+    width: 8px;
+    height: 8px;
+    border-radius: 50%;
+    flex-shrink: 0;
+  }
+
+  .status-active { background: var(--accent); animation: pulse 2s infinite; }
+  .status-pending { background: #F0A500; }
+  .status-planned { background: #555; }
+
+  .country-name {
+    font-family: 'Syne', sans-serif;
+    font-size: 14px;
+    font-weight: 600;
+    color: #fff;
+    flex: 1;
+  }
+
+  .country-phase {
+    font-size: 12px;
+    color: var(--text-muted);
+    font-style: italic;
+  }
+
+  .country-participants {
+    font-family: 'Syne', sans-serif;
+    font-size: 12px;
+    font-weight: 700;
+    color: var(--accent);
+  }
+
+  .pilots-info {}
+
+  .info-block {
+    border-left: 2px solid rgba(0,255,178,0.3);
+    padding-left: 1.5rem;
+    margin-bottom: 2rem;
+  }
+
+  .info-block h4 {
+    font-family: 'Syne', sans-serif;
+    font-size: 15px;
+    font-weight: 700;
+    color: #fff;
+    margin-bottom: 0.4rem;
+  }
+
+  .info-block p {
+    font-size: 14px;
+    color: var(--text-muted);
+    line-height: 1.6;
+  }
+
+  .disclaimer-box {
+    background: rgba(240,165,0,0.06);
+    border: 1px solid rgba(240,165,0,0.2);
+    border-radius: 6px;
+    padding: 1rem 1.2rem;
+    font-size: 13px;
+    color: rgba(240,165,0,0.8);
+    line-height: 1.6;
+    margin-top: 2rem;
+  }
+
+  /* LEGAL / MANDATE */
+  #mandate {
+    background: rgba(0,255,178,0.015);
+    border-top: 1px solid rgba(0,255,178,0.06);
+  }
+
+  .mandate-grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 4rem;
+    margin-top: 3rem;
+  }
+
+  .mandate-box {
+    padding: 2rem;
+    border: 1px solid rgba(255,255,255,0.05);
+    border-radius: 10px;
+    background: rgba(255,255,255,0.015);
+  }
+
+  .mandate-box h3 {
+    font-family: 'Syne', sans-serif;
+    font-size: 18px;
+    font-weight: 700;
+    color: #fff;
+    margin-bottom: 1rem;
+    display: flex;
+    align-items: center;
+    gap: 8px;
+  }
+
+  .mandate-box h3 span {
+    font-size: 11px;
+    font-weight: 600;
+    color: var(--accent);
+    background: rgba(0,255,178,0.1);
+    border: 1px solid rgba(0,255,178,0.2);
+    padding: 2px 8px;
+    border-radius: 2px;
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+  }
+
+  .mandate-box p {
+    font-size: 14px;
+    color: var(--text-muted);
+    line-height: 1.7;
+    margin-bottom: 0.8rem;
+  }
+
+  .mandate-box p:last-child { margin-bottom: 0; }
+
+  /* TIMELINE */
+  #timeline .section-inner {
+    max-width: 700px;
+  }
+
+  .timeline {
+    position: relative;
+    padding-left: 2rem;
+    margin-top: 3rem;
+  }
+
+  .timeline::before {
+    content: '';
+    position: absolute;
+    left: 0;
+    top: 8px;
+    bottom: 0;
+    width: 1px;
+    background: rgba(0,255,178,0.15);
+  }
+
+  .tl-item {
+    position: relative;
+    margin-bottom: 2.5rem;
+  }
+
+  .tl-item::before {
+    content: '';
+    position: absolute;
+    left: -2rem;
+    top: 6px;
+    width: 8px;
+    height: 8px;
+    border-radius: 50%;
+    background: var(--accent);
+    transform: translateX(-3.5px);
+  }
+
+  .tl-item.past::before { background: rgba(0,255,178,0.4); }
+  .tl-item.future::before { background: #333; border: 1px solid rgba(0,255,178,0.2); }
+
+  .tl-date {
+    font-family: 'Syne', sans-serif;
+    font-size: 11px;
+    font-weight: 700;
+    color: var(--accent);
+    letter-spacing: 0.12em;
+    text-transform: uppercase;
+    margin-bottom: 4px;
+  }
+
+  .tl-title {
+    font-family: 'Syne', sans-serif;
+    font-size: 16px;
+    font-weight: 700;
+    color: #fff;
+    margin-bottom: 4px;
+  }
+
+  .tl-desc {
+    font-size: 14px;
+    color: var(--text-muted);
+    line-height: 1.6;
+  }
+
+  /* FAQ */
+  .faq-list {
+    margin-top: 2.5rem;
+    display: flex;
+    flex-direction: column;
+    gap: 0;
+    border: 1px solid rgba(255,255,255,0.06);
+    border-radius: 10px;
+    overflow: hidden;
+  }
+
+  .faq-item {
+    border-bottom: 1px solid rgba(255,255,255,0.05);
+  }
+
+  .faq-item:last-child { border-bottom: none; }
+
+  .faq-q {
+    width: 100%;
+    background: rgba(255,255,255,0.02);
+    border: none;
+    color: #fff;
+    text-align: left;
+    padding: 1.2rem 1.5rem;
+    font-family: 'Syne', sans-serif;
+    font-size: 15px;
+    font-weight: 600;
+    cursor: pointer;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    transition: background 0.2s;
+  }
+
+  .faq-q:hover { background: rgba(255,255,255,0.04); }
+  .faq-q.open { color: var(--accent); }
+
+  .faq-arrow {
+    font-size: 18px;
+    transition: transform 0.2s;
+    color: var(--text-muted);
+  }
+
+  .faq-q.open .faq-arrow { transform: rotate(45deg); color: var(--accent); }
+
+  .faq-a {
+    max-height: 0;
+    overflow: hidden;
+    transition: max-height 0.3s ease;
+    font-size: 14px;
+    color: var(--text-muted);
+    line-height: 1.7;
+  }
+
+  .faq-a-inner {
+    padding: 0 1.5rem 1.2rem;
+  }
+
+  .faq-item.open .faq-a { max-height: 300px; }
+
+  /* FOOTER */
+  footer {
+    border-top: 1px solid rgba(255,255,255,0.04);
+    padding: 3rem 4rem;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    flex-wrap: wrap;
+    gap: 1.5rem;
+    position: relative;
+    z-index: 1;
+  }
+
+  .footer-logo {
+    font-family: 'Syne', sans-serif;
+    font-size: 15px;
+    font-weight: 700;
+    color: #fff;
+  }
+
+  .footer-logo span { color: var(--accent); }
+
+  .footer-links {
+    display: flex;
+    gap: 2rem;
+    list-style: none;
+  }
+
+  .footer-links a {
+    font-size: 13px;
+    color: var(--text-muted);
+    text-decoration: none;
+    transition: color 0.2s;
+  }
+
+  .footer-links a:hover { color: var(--accent); }
+
+  .footer-copy {
+    font-size: 12px;
+    color: rgba(255,255,255,0.2);
+    letter-spacing: 0.05em;
+  }
+
+  .cookie-banner {
+    position: fixed;
+    bottom: 1.5rem;
+    left: 50%;
+    transform: translateX(-50%);
+    background: #111;
+    border: 1px solid rgba(0,255,178,0.15);
+    border-radius: 8px;
+    padding: 1rem 1.5rem;
+    display: flex;
+    align-items: center;
+    gap: 1.5rem;
+    font-size: 13px;
+    color: var(--text-muted);
+    z-index: 200;
+    max-width: 600px;
+    width: calc(100% - 3rem);
+    box-shadow: 0 8px 40px rgba(0,0,0,0.6);
+  }
+
+  .cookie-banner p { flex: 1; line-height: 1.5; }
+
+  .cookie-accept {
+    background: var(--accent);
+    color: #080C09;
+    border: none;
+    padding: 8px 18px;
+    border-radius: 4px;
+    font-family: 'Syne', sans-serif;
+    font-weight: 700;
+    font-size: 13px;
+    cursor: pointer;
+    white-space: nowrap;
+    flex-shrink: 0;
+  }
+
+  /* EASTER EGG */
+  .hidden-msg {
+    display: none;
+    font-size: 10px;
+    color: rgba(0,255,178,0.03);
+    user-select: none;
+    font-family: monospace;
+    text-align: center;
+    padding: 4px;
+  }
+
+  @media (max-width: 768px) {
+    nav { padding: 1rem 1.5rem; }
+    nav ul { display: none; }
+    .stats-bar { grid-template-columns: repeat(2, 1fr); padding: 2rem 1.5rem; }
+    #about .section-inner, #pilots .section-inner, .mandate-grid { grid-template-columns: 1fr; gap: 2.5rem; }
+    .product-grid { grid-template-columns: 1fr; }
+    footer { flex-direction: column; padding: 2rem 1.5rem; text-align: center; }
+    .footer-links { justify-content: center; flex-wrap: wrap; }
+    .section-inner { padding: 4rem 1.5rem; }
+  }
+</style>
+</head>
+<body>
+
+<div class="grid-bg"></div>
+
+<!-- NAVIGATION -->
+<nav>
+  <a href="#" class="logo">
+    <svg class="logo-icon" viewBox="0 0 32 32" fill="none" xmlns="http://www.w3.org/2000/svg">
+      <rect width="32" height="32" rx="6" fill="rgba(0,255,178,0.08)" stroke="rgba(0,255,178,0.3)" stroke-width="1"/>
+      <path d="M8 16 L12 10 L16 18 L20 12 L24 16" stroke="#00FFB2" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
+      <circle cx="16" cy="16" r="2" fill="#00FFB2"/>
+    </svg>
+    <span class="logo-text">Neuralis <span>Bio-Systems</span></span>
+  </a>
+  <ul>
+    <li><a href="#about">Technology</a></li>
+    <li><a href="#product">Bio-Nexus</a></li>
+    <li><a href="#pilots">Pilots</a></li>
+    <li><a href="#mandate">Compliance</a></li>
+    <li><a href="#faq">FAQ</a></li>
+  </ul>
+  <a href="#" class="nav-cta">Register Interest</a>
+</nav>
+
+<!-- HERO -->
+<section id="hero">
+  <div class="hero-badge">
+    <span class="badge-dot"></span>
+    Global Rollout — Phase III Active
+  </div>
+
+  <h1 class="hero-title">Your body.<br>Your <span>identity</span>.</h1>
+
+  <p class="hero-sub">Bio-Nexus is the next generation of personal identification — a subcutaneous implant that replaces every document, card, and credential you carry.</p>
+
+  <div class="hero-cta-group">
+    <a href="#product" class="btn-primary">Explore Bio-Nexus</a>
+    <a href="#pilots" class="btn-outline">Pilot Countries</a>
+  </div>
+
+  <div class="hero-chip-visual">
+    <div class="chip-ring chip-ring-1"></div>
+    <div class="chip-ring chip-ring-2"></div>
+    <div class="chip-core">
+      <span class="chip-label">Bio-Nexus</span>
+    </div>
+  </div>
+</section>
+
+<!-- STATS -->
+<div class="stats-bar">
+  <div class="stat-item">
+    <div class="stat-number">4.2M</div>
+    <div class="stat-label">Active Implants</div>
+  </div>
+  <div class="stat-item">
+    <div class="stat-number">11</div>
+    <div class="stat-label">Pilot Countries</div>
+  </div>
+  <div class="stat-item">
+    <div class="stat-number">99.97%</div>
+    <div class="stat-label">Read Accuracy</div>
+  </div>
+  <div class="stat-item">
+    <div class="stat-number">15yr</div>
+    <div class="stat-label">Battery Lifespan</div>
+  </div>
+</div>
+
+<!-- ABOUT -->
+<section id="about">
+  <div class="section-inner">
+    <div>
+      <div class="section-eyebrow">What is Bio-Nexus</div>
+      <h2 class="section-title">Biometric identity, permanently with you</h2>
+      <p class="section-body">A passive RFID/NFC implant the size of a grain of rice, placed subdermally between the thumb and index finger. No external power source. No app required. Universally readable.</p>
+
+      <div class="about-features">
+        <div class="feature-item">
+          <svg class="feature-icon" viewBox="0 0 20 20" fill="none">
+            <rect x="1" y="1" width="18" height="18" rx="4" stroke="#00FFB2" stroke-width="1.2"/>
+            <path d="M5 10 L8.5 13.5 L15 7" stroke="#00FFB2" stroke-width="1.4" stroke-linecap="round"/>
+          </svg>
+          <div class="feature-text">
+            <h4>Universal ID replacement</h4>
+            <p>Replaces passport, driver's license, and national ID in all participating countries.</p>
+          </div>
+        </div>
+        <div class="feature-item">
+          <svg class="feature-icon" viewBox="0 0 20 20" fill="none">
+            <circle cx="10" cy="10" r="8" stroke="#00FFB2" stroke-width="1.2"/>
+            <path d="M7 10 Q10 6 13 10 Q10 14 7 10Z" stroke="#00FFB2" stroke-width="1.2" fill="none"/>
+          </svg>
+          <div class="feature-text">
+            <h4>Payment-ready</h4>
+            <p>Linked directly to your financial profile. Tap any POS terminal to authorize transactions.</p>
+          </div>
+        </div>
+        <div class="feature-item">
+          <svg class="feature-icon" viewBox="0 0 20 20" fill="none">
+            <path d="M10 2 L10 10 L15 15" stroke="#00FFB2" stroke-width="1.4" stroke-linecap="round"/>
+            <circle cx="10" cy="10" r="8" stroke="#00FFB2" stroke-width="1.2"/>
+          </svg>
+          <div class="feature-text">
+            <h4>15-year passive operation</h4>
+            <p>No charging, no maintenance. The implant operates entirely on ambient electromagnetic induction.</p>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="about-vis">
+      <div class="hand-diagram">
+        <div class="implant-zone">
+          <svg width="180" height="200" viewBox="0 0 180 200" fill="none" xmlns="http://www.w3.org/2000/svg">
+            <!-- stylized hand silhouette -->
+            <path d="M40 200 L40 100 Q40 80 55 75 L60 74 L60 50 Q60 38 68 38 Q76 38 76 50 L76 74 L80 72 L80 40 Q80 28 88 28 Q96 28 96 40 L96 72 L100 72 L100 44 Q100 32 108 32 Q116 32 116 44 L116 72 L120 74 Q132 80 132 95 L132 130 Q132 160 116 175 L116 200Z" fill="rgba(0,255,178,0.06)" stroke="rgba(0,255,178,0.25)" stroke-width="1.2"/>
+            <!-- thumb web area highlight -->
+            <ellipse cx="86" cy="88" rx="14" ry="10" fill="rgba(0,255,178,0.12)" stroke="rgba(0,255,178,0.4)" stroke-width="0.8"/>
+            <!-- chip lines -->
+            <line x1="76" y1="88" x2="60" y2="88" stroke="rgba(0,255,178,0.3)" stroke-width="0.8" stroke-dasharray="3 3"/>
+            <line x1="96" y1="88" x2="112" y2="88" stroke="rgba(0,255,178,0.3)" stroke-width="0.8" stroke-dasharray="3 3"/>
+          </svg>
+          <div class="implant-point"></div>
+        </div>
+        <div class="diagram-caption">Implant Zone — Dorsal Interosseous</div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- PRODUCT -->
+<section id="product">
+  <div class="section-inner">
+    <div class="section-eyebrow">Technical Specifications</div>
+    <h2 class="section-title">Engineered for permanence</h2>
+
+    <div class="product-grid">
+      <div class="product-card">
+        <div class="card-num">01</div>
+        <div class="card-title">ISO 15693 / NFC Type 2</div>
+        <div class="card-desc">Fully compatible with existing global NFC infrastructure. Reads at up to 10cm range with consumer-grade terminals.</div>
+      </div>
+      <div class="product-card">
+        <div class="card-num">02</div>
+        <div class="card-title">AES-256 Encrypted Storage</div>
+        <div class="card-desc">2KB of encrypted onboard memory holds your full biometric profile, document identifiers, and transaction keys.</div>
+      </div>
+      <div class="product-card">
+        <div class="card-num">03</div>
+        <div class="card-title">Medical Grade Biopolymer</div>
+        <div class="card-desc">Encapsulated in ISO 10993-compliant glass. Biocompatible. No allergenic response in over 99.8% of recipients in clinical trials.</div>
+      </div>
+      <div class="product-card">
+        <div class="card-num">04</div>
+        <div class="card-title">Tamper-Evident Seal</div>
+        <div class="card-desc">Cryptographic device fingerprint prevents duplication or spoofing. Each unit is individually serialized at manufacture.</div>
+      </div>
+      <div class="product-card">
+        <div class="card-num">05</div>
+        <div class="card-title">Remote Update Ready</div>
+        <div class="card-desc">Credential profiles can be updated remotely through certified readers. No surgical intervention required for data changes.</div>
+      </div>
+      <div class="product-card">
+        <div class="card-num">06</div>
+        <div class="card-title">Health Integration Layer</div>
+        <div class="card-desc">Optional: stores emergency medical data and blood type. Accessible by certified medical personnel in crisis scenarios.</div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- PILOTS -->
+<section id="pilots">
+  <div class="section-inner">
+    <div class="pilots-map">
+      <div class="section-eyebrow">Pilot Program</div>
+      <h2 class="section-title">Global deployment underway</h2>
+      <p style="font-size:15px; color:var(--text-muted); margin-bottom:2rem; line-height:1.7;">Bio-Nexus is currently in active Phase III trials in select partner nations, with mandatory issuance legislation passed or in legislative review.</p>
+
+      <div class="map-label">Deployment Status</div>
+      <ul class="country-list">
+        <li class="country-item">
+          <div class="country-status status-active"></div>
+          <span class="country-name">Estonia</span>
+          <span class="country-phase">Mandatory — Civil Servants</span>
+          <span class="country-participants">641K</span>
+        </li>
+        <li class="country-item">
+          <div class="country-status status-active"></div>
+          <span class="country-name">Singapore</span>
+          <span class="country-phase">Mandatory — All Residents</span>
+          <span class="country-participants">3.1M</span>
+        </li>
+        <li class="country-item">
+          <div class="country-status status-active"></div>
+          <span class="country-name">Rwanda</span>
+          <span class="country-phase">Voluntary + Incentivized</span>
+          <span class="country-participants">510K</span>
+        </li>
+        <li class="country-item">
+          <div class="country-status status-pending"></div>
+          <span class="country-name">Sweden</span>
+          <span class="country-phase">Legislation Pending</span>
+          <span class="country-participants">—</span>
+        </li>
+        <li class="country-item">
+          <div class="country-status status-pending"></div>
+          <span class="country-name">UAE</span>
+          <span class="country-phase">Pilot — Government Workers</span>
+          <span class="country-participants">88K</span>
+        </li>
+        <li class="country-item">
+          <div class="country-status status-planned"></div>
+          <span class="country-name">Brazil</span>
+          <span class="country-phase">Planned — 2027</span>
+          <span class="country-participants">—</span>
+        </li>
+      </ul>
+    </div>
+
+    <div class="pilots-info">
+      <div class="section-eyebrow" style="margin-top:3.5rem;">Program Details</div>
+      <h3 class="section-title" style="font-size:30px; margin-bottom:2rem;">How the rollout works</h3>
+
+      <div class="info-block">
+        <h4>Phase I — Voluntary Adoption</h4>
+        <p>Open enrollment for early adopters. Incentives include fast-track airport processing, cashless transit access, and reduced administrative fees for registered participants.</p>
+      </div>
+      <div class="info-block">
+        <h4>Phase II — Institutional Mandate</h4>
+        <p>Required for government employees, healthcare workers, and individuals accessing public benefits. Existing ID documents remain valid in parallel.</p>
+      </div>
+      <div class="info-block">
+        <h4>Phase III — Universal Issuance</h4>
+        <p>Bio-Nexus replaces all legacy identification systems. Legacy documents accepted for a 36-month transition window following national legislation.</p>
+      </div>
+
+      <div class="disclaimer-box">
+        <strong>Important:</strong> Neuralis Bio-Systems operates in full compliance with GDPR, ISO 27001, and national data sovereignty frameworks. Biometric data is stored only on the device and in the participant's registered national registry. Neuralis holds no independent data access.
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- MANDATE -->
+<section id="mandate">
+  <div class="section-inner">
+    <div class="section-eyebrow">Legal Framework</div>
+    <h2 class="section-title">Compliance & mandate</h2>
+    <p class="section-body">Bio-Nexus issuance is governed by national legislation in each participating country. Neuralis Bio-Systems acts as the sole certified manufacturer under the Global Digital Identity Accord (GDIA), ratified in Geneva in 2023.</p>
+
+    <div class="mandate-grid">
+      <div class="mandate-box">
+        <h3>Is it mandatory? <span>Yes</span></h3>
+        <p>In Phase III countries, Bio-Nexus implantation is required by law for all residents above the age of 18. Exemptions may apply in documented cases of medical contraindication, subject to review by national health authorities.</p>
+        <p>Residents in Phase I and II regions are strongly encouraged to register prior to legislative deadlines to ensure priority appointment slots.</p>
+      </div>
+      <div class="mandate-box">
+        <h3>Procedure <span>Outpatient</span></h3>
+        <p>Implantation takes approximately 8 minutes and is performed by certified Neuralis-trained practitioners. No anesthesia required — local anesthetic cream is applied. Minimal recovery time.</p>
+        <p>The procedure is covered at no cost to the individual in all participating nations under the Digital Identity Subsidy Framework.</p>
+      </div>
+      <div class="mandate-box">
+        <h3>Can I opt out? <span>Limited</span></h3>
+        <p>In mandatory issuance countries, opting out of Bio-Nexus results in the suspension of access to government services, financial institutions, and travel documentation. Medical exemptions may be reviewed on a case-by-case basis.</p>
+      </div>
+      <div class="mandate-box">
+        <h3>Data ownership <span>Yours</span></h3>
+        <p>The data encoded on your Bio-Nexus chip belongs to you. Neuralis Bio-Systems cannot access, modify, or share your personal data. All data operations are performed between your chip and the reader terminal of the authorized institution.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- TIMELINE -->
+<section id="timeline">
+  <div class="section-inner">
+    <div class="section-eyebrow">Roadmap</div>
+    <h2 class="section-title">From prototype<br>to global standard</h2>
+
+    <div class="timeline">
+      <div class="tl-item past">
+        <div class="tl-date">2019</div>
+        <div class="tl-title">Founding & Seed Research</div>
+        <div class="tl-desc">Neuralis Bio-Systems incorporated in Tallinn, Estonia. First biocompatibility trials initiated under EU research grants.</div>
+      </div>
+      <div class="tl-item past">
+        <div class="tl-date">2021</div>
+        <div class="tl-title">Phase I Clinical Trials</div>
+        <div class="tl-desc">3,200 voluntary participants across three countries. Zero serious adverse events recorded. ISO 10993 certification granted.</div>
+      </div>
+      <div class="tl-item past">
+        <div class="tl-date">2022</div>
+        <div class="tl-title">Singapore Partnership</div>
+        <div class="tl-desc">First government partnership signed. Singapore's Smart Nation initiative selects Bio-Nexus as primary digital identity infrastructure.</div>
+      </div>
+      <div class="tl-item past">
+        <div class="tl-date">2023</div>
+        <div class="tl-title">Geneva Accord & GDIA</div>
+        <div class="tl-desc">Global Digital Identity Accord ratified by 38 nations. Neuralis designated sole Bio-Nexus manufacturer for Phase III deployments.</div>
+      </div>
+      <div class="tl-item">
+        <div class="tl-date">2024–2025</div>
+        <div class="tl-title">Phase III Mass Issuance (Active)</div>
+        <div class="tl-desc">Estonia and Singapore begin mandatory issuance. 4.2M implants active globally. 7 additional nations in legislative review.</div>
+      </div>
+      <div class="tl-item future">
+        <div class="tl-date">2027</div>
+        <div class="tl-title">Brazil, Mexico & South Africa</div>
+        <div class="tl-desc">Planned mandatory issuance begins. Estimated combined rollout of 280M new implants over 36-month transition period.</div>
+      </div>
+      <div class="tl-item future">
+        <div class="tl-date">2030</div>
+        <div class="tl-title">Universal Standard Target</div>
+        <div class="tl-desc">UN Digital Identity Framework deadline. Bio-Nexus projected as the primary identity mechanism for 2.4 billion people.</div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- FAQ -->
+<section id="faq">
+  <div class="section-inner">
+    <div class="section-eyebrow">Questions</div>
+    <h2 class="section-title">Frequently asked</h2>
+
+    <div class="faq-list">
+      <div class="faq-item">
+        <button class="faq-q" onclick="toggleFaq(this)">Does the chip track my location? <span class="faq-arrow">+</span></button>
+        <div class="faq-a"><div class="faq-a-inner">No. Bio-Nexus is a passive device — it has no power source, no GPS module, and no broadcasting capability. It only responds when actively scanned by an authorized terminal. Location tracking is architecturally impossible with this technology.</div></div>
+      </div>
+      <div class="faq-item">
+        <button class="faq-q" onclick="toggleFaq(this)">What happens if I lose my hand in an accident? <span class="faq-arrow">+</span></button>
+        <div class="faq-a"><div class="faq-a-inner">In the unlikely event of limb loss, your identity profile is maintained in your national registry. Emergency re-issuance protocols allow placement in the remaining hand. A national ID card bridge document is issued in the interim period.</div></div>
+      </div>
+      <div class="faq-item">
+        <button class="faq-q" onclick="toggleFaq(this)">Can the chip be hacked? <span class="faq-arrow">+</span></button>
+        <div class="faq-a"><div class="faq-a-inner">Bio-Nexus uses AES-256 encryption with a rolling cryptographic key unique to each device. Unauthorized reads return no usable data. The device destroys its readable payload after 3 failed authentication attempts, requiring a certified re-initialization procedure.</div></div>
+      </div>
+      <div class="faq-item">
+        <button class="faq-q" onclick="toggleFaq(this)">Can I have the chip removed? <span class="faq-arrow">+</span></button>
+        <div class="faq-a"><div class="faq-a-inner">In Phase III countries, removal without an approved medical exemption constitutes non-compliance with national identity law. Removal by an uncertified practitioner also carries the legal risk of permanent identity suspension pending biometric re-verification. We strongly advise consulting with official Neuralis support before pursuing any removal.</div></div>
+      </div>
+      <div class="faq-item">
+        <button class="faq-q" onclick="toggleFaq(this)">Will it interfere with MRI scans? <span class="faq-arrow">+</span></button>
+        <div class="faq-a"><div class="faq-a-inner">No. Bio-Nexus is MRI-safe up to 3.0 Tesla, certified under ISO/IEC 62321. Inform your radiologist as a routine precaution, as they may need to adjust field parameters in 7 Tesla or experimental environments.</div></div>
+      </div>
+      <div class="faq-item">
+        <button class="faq-q" onclick="toggleFaq(this)">Which hand do I choose? <span class="faq-arrow">+</span></button>
+        <div class="faq-a"><div class="faq-a-inner">The participant selects left or right hand at the time of implantation. Non-dominant hand placement is generally recommended for comfort. The choice is recorded in your national registry and cannot be changed without a formal migration request processed by your country's Digital Identity Authority.</div></div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- FOOTER -->
+<footer>
+  <div class="footer-logo">Neuralis <span>Bio-Systems</span><br><small style="font-weight:300; font-size:11px; color:rgba(255,255,255,0.3); letter-spacing:0.1em; font-family:'DM Sans';">EST. 2019 — TALLINN, ESTONIA</small></div>
+  <ul class="footer-links">
+    <li><a href="#">Privacy Policy</a></li>
+    <li><a href="#">GDPR Compliance</a></li>
+    <li><a href="#">Press</a></li>
+    <li><a href="#">Careers</a></li>
+    <li><a href="#">Contact</a></li>
+  </ul>
+  <div class="footer-copy">© 2025 Neuralis Bio-Systems OÜ. All rights reserved.</div>
+</footer>
+
+<!-- Hidden Easter Egg for ARG players -->
+<div class="hidden-msg" id="egg">NBS-INTERN-RELAY://WATCH.THE.LEFT.HAND — FILE 7 UNLOCKED — COORDINATES PENDING</div>
+
+<!-- Cookie Banner -->
+<div class="cookie-banner" id="cookieBanner">
+  <p>We use anonymized session analytics to improve our service. By continuing, you accept our <a href="#" style="color:var(--accent)">Data Charter</a>.</p>
+  <button class="cookie-accept" onclick="document.getElementById('cookieBanner').style.display='none'">Accept</button>
+</div>
+
+<script>
+function toggleFaq(btn) {
+  const item = btn.closest('.faq-item');
+  const isOpen = item.classList.contains('open');
+  document.querySelectorAll('.faq-item').forEach(i => {
+    i.classList.remove('open');
+    i.querySelector('.faq-q').classList.remove('open');
+  });
+  if (!isOpen) {
+    item.classList.add('open');
+    btn.classList.add('open');
+  }
+}
+
+// Easter egg: Konami code
+const konami = [38,38,40,40,37,39,37,39,66,65];
+let ki = 0;
+document.addEventListener('keydown', e => {
+  if (e.keyCode === konami[ki]) {
+    ki++;
+    if (ki === konami.length) {
+      const egg = document.getElementById('egg');
+      egg.style.display = 'block';
+      egg.style.color = 'rgba(0,255,178,0.5)';
+      egg.style.fontSize = '11px';
+      egg.style.fontFamily = 'monospace';
+      egg.style.padding = '8px';
+      egg.style.textAlign = 'center';
+      ki = 0;
+    }
+  } else {
+    ki = 0;
+  }
+});
+
+// Smooth appear on scroll
+const observer = new IntersectionObserver((entries) => {
+  entries.forEach(e => {
+    if (e.isIntersecting) e.target.style.opacity = 1;
+  });
+}, { threshold: 0.1 });
+
+document.querySelectorAll('.product-card, .tl-item, .mandate-box, .country-item, .info-block').forEach(el => {
+  el.style.opacity = 0;
+  el.style.transition = 'opacity 0.5s ease';
+  observer.observe(el);
+});
+</script>
+</body>
+</html>
